@@ -36,7 +36,7 @@ check code smells:
   image: python:3.9
   stage: test
   script:
-    - apk add make git
+    - apt-get update && apt-get install -y make
     - pip install tox
     - tox -e 3.9-doctest
 
