@@ -45,7 +45,7 @@ run tests with Python 3.6:
   variables:
     PYTHON: "3.6"
   only:
-    - main
+    - master
     - merge_requests
 
 run tests with Python 3.7:
