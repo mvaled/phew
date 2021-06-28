@@ -1,0 +1,100 @@
+stages:
+  - pre-check
+  - build doc
+  - publish doc
+  - test
+  - check
+  - build
+  - publish
+
+check code smells:
+  image: python:3.9-alpine
+  script:
+    - |
+      pip install tox
+      tox -e 3.9-lint
+  stage: pre-check
+  only:
+    - main
+    - merge_requests
+
+.run_tox_tests: &run_tox_tests
+  image: python:$PYTHON
+  stage: test
+  script:
+    - pip install tox
+    - tox -e system-unit
+
+.run_tox_staticcheck: &run_tox_staticcheck
+  image: python:3.9
+  stage: pre-check
+  script:
+    - pip install tox
+    - tox -e 3.9-staticcheck
+
+.run_tox_doctest: &run_tox_doctest
+  image: python:3.9
+  stage: test
+  script:
+    - apk add make git
+    - pip install tox
+    - tox -e 3.9-doctest
+
+run tests with Python 3.6:
+  <<: *run_tox_tests
+  variables:
+    PYTHON: "3.6"
+  only:
+    - main
+    - merge_requests
+
+run tests with Python 3.7:
+  <<: *run_tox_tests
+  variables:
+    PYTHON: "3.7"
+  only:
+    - master
+    - merge_requests
+
+run tests with Python 3.8:
+  <<: *run_tox_tests
+  variables:
+    PYTHON: "3.8"
+  only:
+    - master
+    - merge_requests
+  allow_failure: false
+
+run tests with Python 3.9:
+  <<: *run_tox_tests
+  variables:
+    PYTHON: "3.9"
+  only:
+    - master
+    - merge_requests
+  allow_failure: false
+
+
+run static checks:
+  <<: *run_tox_staticcheck
+  only:
+    - master
+    - merge_requests
+
+run doctests:
+  <<: *run_tox_doctest
+  only:
+    - master
+    - merge_requests
+
+
+run coverage tests:
+  image: python:3.9-alpine
+  stage: test
+  script:
+    - pip install tox
+    - tox -e 3.9-coverage
+  allow_failure: true
+  only:
+    - master
+    - merge_requests

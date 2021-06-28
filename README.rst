@@ -2,10 +2,9 @@
  Phew
 ======
 
-The best of Peewee with a extensible models and instrumented runtime online
-models.
-
-Inspired by Odoo's runtime models, but allowing the Python inheritance and imports.
+The best of Peewee with a extensible models and instrumented runtime models.
+Inspired by Odoo's runtime models, but allowing the Python inheritance and
+imports (so that mypy_ works).
 
 
 .. code-block:: python
@@ -136,4 +135,11 @@ Basically, put this in your ``settings.py`` file.
    setup()
 
 
-It should be enough most of the time.  Under the hood, we
+It should be enough most of the time.  Under the hood, we integrate with
+Django App's to find Model Definition classes (in modules ``models.py`` and
+``phewers.py``) and connect the signals
+`django.core.signals.request_started`:any: and
+`django.core.signals.request_finished`:any: to setup the proper environment.
+
+`phew.contrib.django.setup`:func: allows you to select the appropriate type of
+environment.
