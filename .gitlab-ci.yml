@@ -45,7 +45,7 @@ run tests with Python 3.6:
   variables:
     PYTHON: "3.6"
   only:
-    - master
+    - main
     - merge_requests
 
 run tests with Python 3.7:
@@ -53,7 +53,7 @@ run tests with Python 3.7:
   variables:
     PYTHON: "3.7"
   only:
-    - master
+    - main
     - merge_requests
 
 run tests with Python 3.8:
@@ -61,7 +61,7 @@ run tests with Python 3.8:
   variables:
     PYTHON: "3.8"
   only:
-    - master
+    - main
     - merge_requests
   allow_failure: false
 
@@ -70,7 +70,7 @@ run tests with Python 3.9:
   variables:
     PYTHON: "3.9"
   only:
-    - master
+    - main
     - merge_requests
   allow_failure: false
 
@@ -78,13 +78,13 @@ run tests with Python 3.9:
 run static checks:
   <<: *run_tox_staticcheck
   only:
-    - master
+    - main
     - merge_requests
 
 run doctests:
   <<: *run_tox_doctest
   only:
-    - master
+    - main
     - merge_requests
 
 
@@ -96,5 +96,5 @@ run coverage tests:
     - tox -e 3.9-coverage
   allow_failure: true
   only:
-    - master
+    - main
     - merge_requests
